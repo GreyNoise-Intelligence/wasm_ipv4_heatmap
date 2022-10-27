@@ -1,0 +1,36 @@
+<html>
+<head>
+    <style>
+        body {background-color: black;}
+    </style>
+</head>
+<body>
+    <canvas id='c' width=4096 height=4096 />
+    <script>
+        var cvs = document.getElementById('c')
+        var ctx = cvs.getContext('2d');
+
+        fetch("main.wasm", { mode: 'no-cors' }).then(e => e.arrayBuffer()).then(e => WebAssembly.instantiate(e,
+            {}).then(res => {
+                fetch('ips.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        var mem = new Uint8ClampedArray(res.instance.exports.mem.buffer);
+                        //Iterate over our list of IPs
+                        for (i = 0; i < data.length; i++) {
+                            var octets = data[i].split('.');
+                            res.instance.exports.insertIP(
+                                    Number(octets[0]),
+                                    Number(octets[1]),
+                                    Number(octets[2]),
+                                    Number(octets[3])
+                                );
+                        }
+
+                        ctx.putImageData(new ImageData(mem, cvs.width, cvs.height), 0, 0);
+                        console.log("Done.");
+                    });
+            }));
+    </script>
+</body>
+<html>
