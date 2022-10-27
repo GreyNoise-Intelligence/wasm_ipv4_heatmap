@@ -17,7 +17,9 @@ WebAssembly runtimes are available for Rust, C, C++, C#, D, Python, Javascript, 
 
 While there are [prior examples](https://github.com/measurement-factory/ipv4-heatmap) of tools to map IPv4 addresses to a Hilbert curve, I wrote this WebAssembly Module during a [GreyNoise](https://greynoise.io) Hack Week to challenge myself to see how small I could make a functioning and re-usable implementation in WebAssembly.
 
-The result is a 465 _byte_ module that can readily be re-used in almost any code language. The module exposes a singular function:
+**The result is a ~465 _byte_ module that can readily be re-used in almost any code language.**
+
+The module exposes a singular function:
 
 * `insertIP(i32, i32, i32, i32)`
 
